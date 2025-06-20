@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  file_service:
+    build: ./services/file_service
+    volumes:
+      - ./data:/data
+    ports:
+      - "8001:8000"
+
+  vision_service:
+    build: ./services/vision_service
+    volumes:
+      - ./data:/data
+    ports:
+      - "8002:8000"
+    environment:
+      - OLLAMA_HOST=http://host.docker.internal:11434
+
+  db_service:
+    image: postgres:15
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ai_data
+      POSTGRES_USER: agent
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
