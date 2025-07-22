@@ -31,14 +31,18 @@ def get_pokemon_prompt(poke_list):
 
 # print(get_poke_info('pikachu'))
 if __name__ == "__main__":
+    curious = True
     prompt = get_pokemon_prompt(input("enter 2 pokemon names separated by comma:\n").split(','))
     
     def_agent = agent.AssistantAgent(short_term_window=10)
     result = def_agent.handle_user_input(prompt)
     print(result)
-
-    follow_up = input("Any follow up questions?\n:")
-    follow_up_result = def_agent.handle_user_input(follow_up)
-    print(follow_up_result)
+    
+    curious = input("Still curious? y/n\n").lower() == 'y'
+    while(curious):
+        follow_up = input("What is it?\n:")
+        follow_up_result = def_agent.handle_user_input(follow_up)
+        print(follow_up_result)
+        curious = input("Still curious? y/n\n").lower() == 'y'
 
 
