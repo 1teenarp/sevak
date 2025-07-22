@@ -1,12 +1,29 @@
 # Interface to communicate with Ollama server
+# from dotenv import load_dotenv
 import os
 import httpx
+import requests
 
-OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+# load_dotenv()
 
-async def call_ollama_with_image(image_path: str, prompt: str, model: str = "llava:latest"):
+OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://192.168.1.119:11434")
+MODEL_NAME = os.getenv("MODEL_NAME", "gemma3:latest")
+
+OLLAMA_URL = OLLAMA_HOST+"/api/generate"
+
+def query_ollama(prompt: str):
     payload = {
-        "model": model,
+        "model": MODEL_NAME,
+        "prompt": prompt,
+        "stream": False
+    }
+    response = requests.post(OLLAMA_URL, json=payload)
+    return response.json()["response"]
+
+
+async def call_ollama_with_image(image_path: str, prompt: str):
+    payload = {
+        "model": MODEL_NAME,
         "prompt": prompt,
         "images": [image_path]
     }
