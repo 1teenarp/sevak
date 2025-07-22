@@ -28,9 +28,7 @@ def get_pokemon_prompt(poke_list):
             "<pokemon2>"+json.dumps(poke2_info)+"</pokemon2>"
     return prompt
     
-
-# print(get_poke_info('pikachu'))
-if __name__ == "__main__":
+def pokemon_demo_flow():
     curious = True
     prompt = get_pokemon_prompt(input("enter 2 pokemon names separated by comma:\n").split(','))
     
@@ -44,5 +42,15 @@ if __name__ == "__main__":
         follow_up_result = def_agent.handle_user_input(follow_up)
         print(follow_up_result)
         curious = input("Still curious? y/n\n").lower() == 'y'
+
+
+# print(get_poke_info('pikachu'))
+if __name__ == "__main__":
+    choice = input("Your only option is Pokemon VS demo for now :D")
+    match choice:
+        case _:
+            pokemon_demo_flow()
+        # add more demos here
+
 
 
